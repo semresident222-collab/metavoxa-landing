@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
     <title>MetaVoxa — An institutional ecosystem for surfacing what systems do not see.</title>
     <meta name="description" content="MetaVoxa is an institutional ecosystem built across five rooms: Atrium, Labs, Press, Research, and Founder. Surfacing what systems do not see.">
 
@@ -32,6 +32,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;600;700&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400;1,500&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
+
     <style>
         :root {
             --bg-deep: #0a0a0a;
@@ -41,7 +42,6 @@
             --text-primary: #e8e0d4;
             --text-secondary: #a89b8c;
             --text-muted: #6b5f52;
-            --border-subtle: rgba(201, 169, 110, 0.15);
         }
 
         * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -59,15 +59,18 @@
         /* ===== INTRO OVERLAY ===== */
         .intro-overlay {
             position: fixed;
-            top: 0; left: 0;
-            width: 100vw; height: 100vh;
-            background: var(--bg-deep);
+            inset: 0;
+            background:
+                radial-gradient(circle at center, rgba(201, 169, 110, 0.08) 0%, transparent 34%),
+                var(--bg-deep);
             z-index: 1000;
             display: flex;
-            flex-direction: column;
             justify-content: center;
             align-items: center;
-            transition: opacity 1.5s cubic-bezier(0.23, 1, 0.32, 1), visibility 1.5s;
+            opacity: 1;
+            visibility: visible;
+            transition: opacity 1.25s ease, visibility 1.25s ease;
+            pointer-events: auto;
         }
 
         .intro-overlay.hidden {
@@ -80,253 +83,283 @@
             display: flex;
             flex-direction: column;
             align-items: center;
-            gap: 2rem;
+            gap: 1.15rem;
+            perspective: 1200px;
+            text-align: center;
+            padding: 2rem;
         }
 
         .intro-seal {
-            width: 80px;
-            height: 80px;
+            width: clamp(116px, 16vw, 190px);
+            height: clamp(116px, 16vw, 190px);
             border-radius: 50%;
             object-fit: cover;
-            animation: seal-zoom-flip 4s cubic-bezier(0.23, 1, 0.32, 1) forwards;
-            filter: drop-shadow(0 0 15px rgba(201, 169, 110, 0.2));
+            transform-style: preserve-3d;
+            backface-visibility: hidden;
+            filter:
+                drop-shadow(0 0 26px rgba(201, 169, 110, 0.28))
+                drop-shadow(0 18px 45px rgba(0, 0, 0, 0.65));
+            animation: coin-arrival 3.15s cubic-bezier(0.16, 1, 0.3, 1) forwards;
         }
 
-        @keyframes seal-zoom-flip {
-            0% { 
-                transform: scale(0.15) rotateY(-180deg); 
-                opacity: 0; 
+        @keyframes coin-arrival {
+            0% {
+                opacity: 0;
+                transform: scale(7.8) rotateY(-980deg) rotateZ(-12deg);
+                filter: blur(2px) drop-shadow(0 0 38px rgba(201, 169, 110, 0.35));
             }
-            25% { 
-                transform: scale(0.6) rotateY(-90deg); 
-                opacity: 0.5; 
+            28% {
+                opacity: 1;
+                transform: scale(4.1) rotateY(-650deg) rotateZ(-7deg);
+                filter: blur(0.8px) drop-shadow(0 0 34px rgba(201, 169, 110, 0.32));
             }
-            55% { 
-                transform: scale(1.08) rotateY(0deg); 
-                opacity: 1; 
+            68% {
+                opacity: 1;
+                transform: scale(1.28) rotateY(-120deg) rotateZ(0deg);
+                filter: blur(0) drop-shadow(0 0 30px rgba(201, 169, 110, 0.3));
             }
-            75% { 
-                transform: scale(0.97) rotateY(0deg); 
-                opacity: 1; 
-            }
-            100% { 
-                transform: scale(1) rotateY(0deg); 
-                opacity: 1; 
+            100% {
+                opacity: 1;
+                transform: scale(1) rotateY(0deg) rotateZ(0deg);
+                filter: blur(0) drop-shadow(0 0 22px rgba(201, 169, 110, 0.24));
             }
         }
 
         .intro-title {
             font-family: 'Cinzel', serif;
-            font-size: clamp(1.2rem, 3vw, 2rem);
+            font-size: clamp(1.55rem, 4vw, 3.1rem);
             font-weight: 400;
-            letter-spacing: 0.4em;
+            letter-spacing: 0.42em;
             color: var(--gold-primary);
             opacity: 0;
-            animation: fade-in 1.2s ease-out 2.8s forwards;
-        }
-
-        .intro-divider {
-            width: 30px;
-            height: 1px;
-            background: linear-gradient(90deg, transparent, var(--gold-primary), transparent);
-            opacity: 0;
-            animation: fade-in 1.2s ease-out 3.2s forwards;
+            transform: translateY(16px);
+            animation: intro-text-in 1.05s ease 2.45s forwards;
+            margin-left: 0.42em;
         }
 
         .intro-tagline {
             font-family: 'Cormorant Garamond', serif;
-            font-size: 0.9rem;
+            font-size: clamp(1rem, 2vw, 1.3rem);
             font-weight: 300;
-            font-style: italic;
             color: var(--text-secondary);
             opacity: 0;
-            animation: fade-in 1.2s ease-out 3.6s forwards;
+            transform: translateY(12px);
+            animation: intro-text-in 1.05s ease 2.75s forwards;
         }
 
-        @keyframes fade-in {
-            from { opacity: 0; transform: translateY(10px); }
-            to { opacity: 1; transform: translateY(0); }
+        .intro-tagline em {
+            color: var(--text-primary);
+            opacity: 0.9;
+            letter-spacing: 0.04em;
         }
 
-        @keyframes stamp-press {
-            0% { transform: scale(1) rotateY(0deg); opacity: 1; }
-            50% { transform: scale(1.15) rotateY(0deg); opacity: 1; }
-            100% { transform: scale(0.05) rotateY(0deg); opacity: 0; }
+        @keyframes intro-text-in {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
         }
 
-        .intro-overlay.stamping .intro-seal {
-            animation: stamp-press 1s cubic-bezier(0.23, 1, 0.32, 1) forwards;
+        .intro-overlay.leaving .intro-seal,
+        .intro-overlay.leaving .intro-title,
+        .intro-overlay.leaving .intro-tagline {
+            animation: intro-elements-out 0.8s ease forwards;
         }
 
-        .intro-overlay.stamping .intro-title,
-        .intro-overlay.stamping .intro-divider,
-        .intro-overlay.stamping .intro-tagline {
-            animation: fade-out 0.8s ease-out forwards;
-        }
-
-        @keyframes fade-out {
-            to { opacity: 0; }
+        @keyframes intro-elements-out {
+            to {
+                opacity: 0;
+                transform: translateY(-8px) scale(0.98);
+            }
         }
 
         /* ===== MAIN LANDING ===== */
         .main-landing {
             position: fixed;
-            top: 0; left: 0;
-            width: 100vw; height: 100vh;
+            inset: 0;
             opacity: 0;
-            transition: opacity 1.5s ease-out;
+            transition: opacity 1.25s ease-out;
             overflow: hidden;
+            background: var(--bg-deep);
         }
 
-        .main-landing.visible {
-            opacity: 1;
-        }
+        .main-landing.visible { opacity: 1; }
 
-        /* ===== FULL-SCREEN PANORAMIC ===== */
+        /* ===== DESKTOP PANORAMA ===== */
         .panoramic-bg {
             position: fixed;
-            top: 0; left: 0;
-            width: 100vw; height: 100vh;
+            inset: 0;
+            width: 100vw;
+            height: 100vh;
             object-fit: cover;
             object-position: center;
             z-index: 1;
+            user-select: none;
+            -webkit-user-drag: none;
         }
 
-        /* ===== CLICKABLE ZONES OVERLAYS ===== */
+        .about-link {
+            position: fixed;
+            top: clamp(1rem, 3vw, 2.4rem);
+            right: clamp(1rem, 3vw, 3rem);
+            z-index: 50;
+            font-family: 'Cinzel', serif;
+            font-size: clamp(0.68rem, 1vw, 0.85rem);
+            letter-spacing: 0.32em;
+            color: var(--gold-primary);
+            text-decoration: none;
+            text-transform: uppercase;
+            padding: 0.7rem 0.2rem 0.7rem 0.9rem;
+            opacity: 0.9;
+            transition: color 0.3s ease, opacity 0.3s ease, text-shadow 0.3s ease;
+        }
+
+        .about-link::after {
+            content: '•';
+            margin-left: 0.65rem;
+            color: var(--gold-bright);
+        }
+
+        .about-link:hover {
+            color: var(--gold-bright);
+            opacity: 1;
+            text-shadow: 0 0 18px rgba(201, 169, 110, 0.35);
+        }
+
         .doors-overlay {
             position: fixed;
-            top: 0; left: 0;
-            width: 100vw; height: 100vh;
+            left: 0;
+            right: 0;
+            top: 16.5vh;
+            bottom: 9.5vh;
             display: flex;
-            z-index: 2;
+            z-index: 5;
+            pointer-events: none;
         }
 
         .door-zone {
             flex: 1;
             position: relative;
-            cursor: pointer;
             text-decoration: none;
-            transition: background 0.5s ease;
+            pointer-events: auto;
+            cursor: pointer;
+            background: transparent;
         }
 
-        .door-zone:hover {
-            background: rgba(201, 169, 110, 0.03);
+        .door-zone::after {
+            content: '';
+            position: absolute;
+            inset: 0.7rem 0.2rem;
+            border: 1px solid transparent;
+            background: transparent;
+            transition: border-color 0.35s ease, box-shadow 0.35s ease, background 0.35s ease;
         }
 
-        /* ===== MOBILE CAROUSEL ===== */
+        .door-zone:hover::after {
+            border-color: rgba(201, 169, 110, 0.16);
+            box-shadow: inset 0 0 48px rgba(201, 169, 110, 0.045);
+            background: rgba(201, 169, 110, 0.018);
+        }
+
+        /* ===== MOBILE 3D CAROUSEL ===== */
         .carousel-section {
             display: none;
             position: fixed;
-            top: 0; left: 0;
-            width: 100vw; height: 100vh;
+            inset: 0;
             z-index: 10;
             overflow: hidden;
+            background:
+                radial-gradient(circle at center, rgba(201, 169, 110, 0.07) 0%, transparent 58%),
+                var(--bg-deep);
+            perspective: 1200px;
+            touch-action: pan-y;
         }
 
-        .carousel-track {
-            display: flex;
-            height: 100vh;
-            transition: transform 0.5s cubic-bezier(0.23, 1, 0.32, 1);
-            cursor: grab;
-        }
-
-        .carousel-track:active {
-            cursor: grabbing;
+        .carousel-stage {
+            position: absolute;
+            inset: 0;
+            perspective: 1200px;
+            transform-style: preserve-3d;
         }
 
         .carousel-slide {
-            min-width: 100vw;
-            height: 100vh;
-            position: relative;
+            position: absolute;
+            top: 13vh;
+            left: 11vw;
+            width: 78vw;
+            height: 76vh;
+            border-radius: 0;
             overflow: hidden;
-            flex-shrink: 0;
             text-decoration: none;
+            box-shadow: 0 18px 55px rgba(0, 0, 0, 0.58);
+            transform-style: preserve-3d;
+            transition:
+                transform 0.75s cubic-bezier(0.23, 1, 0.32, 1),
+                opacity 0.75s ease,
+                filter 0.75s ease;
+            will-change: transform, opacity, filter;
+            background: #111;
         }
 
         .carousel-slide-bg {
-            position: absolute;
-            top: 0; left: 0;
-            width: 100%; height: 100%;
+            width: 100%;
+            height: 100%;
             object-fit: cover;
             object-position: center;
-        }
-
-        .carousel-slide::before {
-            content: '';
-            position: absolute;
-            top: 0; left: 0; right: 0; bottom: 0;
-            background: linear-gradient(to bottom, transparent 40%, rgba(10,10,10,0.8) 100%);
-            z-index: 1;
-        }
-
-        .carousel-slide-content {
-            position: absolute;
-            bottom: 15%;
-            left: 0; right: 0;
-            z-index: 2;
-            padding: 2rem;
-            text-align: center;
-        }
-
-        .carousel-slide-name {
-            font-family: 'Cinzel', serif;
-            font-size: 1.8rem;
-            letter-spacing: 0.2em;
-            color: var(--gold-primary);
-            text-transform: uppercase;
-            margin-bottom: 0.5rem;
-        }
-
-        .carousel-slide-star {
-            color: var(--gold-dim);
-            font-size: 0.7rem;
-            margin-bottom: 0.75rem;
-        }
-
-        .carousel-slide-desc {
-            font-family: 'Cormorant Garamond', serif;
-            font-size: 1.1rem;
-            font-weight: 300;
-            color: var(--text-secondary);
-            line-height: 1.5;
-        }
-
-        .carousel-slide-line {
-            width: 30px;
-            height: 1px;
-            background: var(--gold-dim);
-            margin: 1rem auto 0;
+            display: block;
+            user-select: none;
+            -webkit-user-drag: none;
         }
 
         .carousel-indicators {
             position: fixed;
-            bottom: 2rem;
-            left: 0; right: 0;
+            bottom: 1.3rem;
+            left: 0;
+            right: 0;
             display: flex;
             justify-content: center;
-            gap: 0.6rem;
-            z-index: 20;
+            gap: 0.58rem;
+            z-index: 30;
         }
 
         .carousel-dot {
-            width: 8px; height: 8px;
+            width: 7px;
+            height: 7px;
             border-radius: 50%;
             background: var(--text-muted);
             border: none;
             cursor: pointer;
             transition: all 0.3s ease;
             padding: 0;
-            opacity: 0.6;
+            opacity: 0.55;
         }
 
         .carousel-dot.active {
+            width: 20px;
+            border-radius: 99px;
             background: var(--gold-primary);
             opacity: 1;
-            box-shadow: 0 0 10px rgba(201, 169, 110, 0.5);
+            box-shadow: 0 0 12px rgba(201, 169, 110, 0.45);
         }
 
-        /* ===== RESPONSIVE ===== */
+        .carousel-hint {
+            position: fixed;
+            left: 0;
+            right: 0;
+            bottom: 2.9rem;
+            z-index: 30;
+            text-align: center;
+            font-family: 'Cinzel', serif;
+            font-size: 0.58rem;
+            letter-spacing: 0.28em;
+            text-transform: uppercase;
+            color: var(--gold-dim);
+            opacity: 0.75;
+            pointer-events: none;
+        }
+
         @media (max-width: 768px) {
+            .panoramic-bg,
             .doors-overlay {
                 display: none;
             }
@@ -335,281 +368,295 @@
                 display: block;
             }
 
-            .panoramic-bg {
-                display: none;
+            .about-link {
+                z-index: 80;
+                top: 0.9rem;
+                right: 0.8rem;
+                font-size: 0.68rem;
+                letter-spacing: 0.24em;
+                padding: 0.8rem 0.1rem 0.8rem 0.8rem;
             }
 
             .intro-seal {
-                width: 60px;
-                height: 60px;
+                width: 124px;
+                height: 124px;
+            }
+
+            .intro-title {
+                font-size: 1.5rem;
+                letter-spacing: 0.28em;
+                margin-left: 0.28em;
+            }
+
+            .intro-tagline {
+                max-width: 280px;
+                line-height: 1.45;
+            }
+        }
+
+        @media (max-width: 420px) {
+            .carousel-slide {
+                top: 14vh;
+                left: 9vw;
+                width: 82vw;
+                height: 74vh;
             }
         }
 
         @media (min-width: 769px) {
-            .carousel-section {
-                display: none !important;
-            }
+            .carousel-section { display: none !important; }
         }
 
         @media (prefers-reduced-motion: reduce) {
-            .intro-seal, .intro-title, .intro-divider, .intro-tagline {
-                animation: none !important;
-            }
             .intro-overlay { display: none; }
             .main-landing { opacity: 1; }
+            .carousel-slide { transition: none; }
         }
     </style>
-<base target="_blank">
 </head>
+
 <body>
 
     <!-- INTRO OVERLAY -->
     <div class="intro-overlay" id="introOverlay">
         <div class="intro-seal-container">
             <img src="seal.jpg" alt="MetaVoxa Wax Seal" class="intro-seal" id="introSeal">
-            <h2 class="intro-title">METAVOXA</h2>
-            <div class="intro-divider"></div>
-            <p class="intro-tagline">An institutional ecosystem</p>
+            <h1 class="intro-title">METAVOXA</h1>
+            <p class="intro-tagline">An institutional ecosystem for surfacing<br><em>what systems do not see.</em></p>
         </div>
     </div>
 
     <!-- MAIN LANDING -->
-    <div class="main-landing" id="mainLanding">
+    <main class="main-landing" id="mainLanding">
+        <a href="about.html" class="about-link" aria-label="About MetaVoxa">About</a>
 
-        <!-- DESKTOP: FULL-SCREEN PANORAMIC WITH ZONES -->
+        <!-- DESKTOP: FULL FIVE-DOOR IMAGE -->
         <img src="all-five.jpg" alt="MetaVoxa — Five Rooms" class="panoramic-bg" id="panoramicBg">
 
-        <div class="doors-overlay" id="doorsOverlay">
-            <a href="https://atrium.metavoxa.com" class="door-zone" target="_blank" rel="noopener" aria-label="Atrium"></a>
-            <a href="https://labs.metavoxa.com" class="door-zone" target="_blank" rel="noopener" aria-label="Labs"></a>
-            <a href="https://press.metavoxa.com" class="door-zone" target="_blank" rel="noopener" aria-label="Press"></a>
-            <a href="https://research.metavoxa.com" class="door-zone" target="_blank" rel="noopener" aria-label="Research"></a>
-            <a href="https://www.marthakoroma.com" class="door-zone" target="_blank" rel="noopener" aria-label="Founder"></a>
-        </div>
+        <nav class="doors-overlay" id="doorsOverlay" aria-label="MetaVoxa rooms">
+            <a href="https://atrium.metavoxa.com" class="door-zone" aria-label="Enter Atrium"></a>
+            <a href="https://labs.metavoxa.com" class="door-zone" aria-label="Enter Labs"></a>
+            <a href="https://press.metavoxa.com" class="door-zone" aria-label="Enter Press"></a>
+            <a href="https://research.metavoxa.com" class="door-zone" aria-label="Enter Research"></a>
+            <a href="https://www.marthakoroma.com" class="door-zone" aria-label="Meet the Founder"></a>
+        </nav>
 
-        <!-- MOBILE: FULL-SCREEN CAROUSEL -->
-        <section class="carousel-section" id="carouselSection">
-            <div class="carousel-track" id="carouselTrack">
-                <a href="https://atrium.metavoxa.com" class="carousel-slide" target="_blank" rel="noopener">
+        <!-- MOBILE: ROUND / ROTATING CAROUSEL -->
+        <section class="carousel-section" id="carouselSection" aria-label="MetaVoxa carousel">
+            <div class="carousel-stage" id="carouselStage">
+                <a href="https://atrium.metavoxa.com" class="carousel-slide" aria-label="Enter Atrium">
                     <img src="atrium.jpg" alt="Atrium" class="carousel-slide-bg">
-                    <div class="carousel-slide-content">
-                        <h2 class="carousel-slide-name">Atrium</h2>
-                        <div class="carousel-slide-star">✦</div>
-                        <p class="carousel-slide-desc">The full architecture of the mind behind the work.</p>
-                        <div class="carousel-slide-line"></div>
-                    </div>
                 </a>
-                <a href="https://labs.metavoxa.com" class="carousel-slide" target="_blank" rel="noopener">
+                <a href="https://labs.metavoxa.com" class="carousel-slide" aria-label="Enter Labs">
                     <img src="labs.jpg" alt="Labs" class="carousel-slide-bg">
-                    <div class="carousel-slide-content">
-                        <h2 class="carousel-slide-name">Labs</h2>
-                        <div class="carousel-slide-star">✦</div>
-                        <p class="carousel-slide-desc">Where questions are investigated and frameworks are built.</p>
-                        <div class="carousel-slide-line"></div>
-                    </div>
                 </a>
-                <a href="https://press.metavoxa.com" class="carousel-slide" target="_blank" rel="noopener">
+                <a href="https://press.metavoxa.com" class="carousel-slide" aria-label="Enter Press">
                     <img src="press.jpg" alt="Press" class="carousel-slide-bg">
-                    <div class="carousel-slide-content">
-                        <h2 class="carousel-slide-name">Press</h2>
-                        <div class="carousel-slide-star">✦</div>
-                        <p class="carousel-slide-desc">Where lived experience becomes language.</p>
-                        <div class="carousel-slide-line"></div>
-                    </div>
                 </a>
-                <a href="https://research.metavoxa.com" class="carousel-slide" target="_blank" rel="noopener">
+                <a href="https://research.metavoxa.com" class="carousel-slide" aria-label="Enter Research">
                     <img src="research.jpg" alt="Research" class="carousel-slide-bg">
-                    <div class="carousel-slide-content">
-                        <h2 class="carousel-slide-name">Research</h2>
-                        <div class="carousel-slide-star">✦</div>
-                        <p class="carousel-slide-desc">Where evidence is recorded, verified, and made available.</p>
-                        <div class="carousel-slide-line"></div>
-                    </div>
                 </a>
-                <a href="https://www.marthakoroma.com" class="carousel-slide" target="_blank" rel="noopener">
+                <a href="https://www.marthakoroma.com" class="carousel-slide" aria-label="Meet the Founder">
                     <img src="founder.jpg" alt="Founder" class="carousel-slide-bg">
-                    <div class="carousel-slide-content">
-                        <h2 class="carousel-slide-name">Founder</h2>
-                        <div class="carousel-slide-star">✦</div>
-                        <p class="carousel-slide-desc">The work, trajectory, and perspective behind MetaVoxa.</p>
-                        <div class="carousel-slide-line"></div>
-                    </div>
                 </a>
             </div>
+
+            <div class="carousel-hint">Swipe to rotate</div>
             <div class="carousel-indicators" id="carouselIndicators"></div>
         </section>
-
-    </div>
+    </main>
 
     <script>
-        // ===== INTRO ANIMATION =====
+        // ===== INTRO: coin zooms out, spins, text appears, then landing fades in =====
         const introOverlay = document.getElementById('introOverlay');
         const mainLanding = document.getElementById('mainLanding');
-        const introSeal = document.getElementById('introSeal');
-
-        const hasSeenIntro = localStorage.getItem('metavoxa-intro-seen');
 
         function endIntro() {
-            introOverlay.classList.add('stamping');
+            introOverlay.classList.add('leaving');
+
             setTimeout(() => {
                 introOverlay.classList.add('hidden');
                 mainLanding.classList.add('visible');
-                localStorage.setItem('metavoxa-intro-seen', 'true');
-            }, 1000);
+            }, 820);
         }
 
-        if (hasSeenIntro) {
-            introOverlay.style.display = 'none';
-            mainLanding.classList.add('visible');
-        } else {
-            setTimeout(endIntro, 5200);
-        }
+        window.addEventListener('load', () => {
+            setTimeout(endIntro, 4300);
+        });
 
-        // ===== MOBILE CAROUSEL =====
-        const track = document.getElementById('carouselTrack');
+        // ===== MOBILE 3D CAROUSEL =====
+        const carouselSection = document.getElementById('carouselSection');
+        const slides = Array.from(document.querySelectorAll('.carousel-slide'));
         const indicatorsContainer = document.getElementById('carouselIndicators');
-        const slides = track.querySelectorAll('.carousel-slide');
         const totalSlides = slides.length;
+
         let currentIndex = 0;
+        let startX = 0;
+        let startY = 0;
         let isDragging = false;
-        let startPos = 0;
-        let currentTranslate = 0;
-        let prevTranslate = 0;
-        let animationID;
-        let autoRotateInterval;
-        let touchStarted = false;
+        let didMove = false;
+        let autoRotateInterval = null;
 
         slides.forEach((_, i) => {
             const dot = document.createElement('button');
-            dot.classList.add('carousel-dot');
-            if (i === 0) dot.classList.add('active');
-            dot.addEventListener('click', () => goToSlide(i));
+            dot.className = 'carousel-dot' + (i === 0 ? ' active' : '');
+            dot.setAttribute('aria-label', `Go to slide ${i + 1}`);
+            dot.addEventListener('click', () => {
+                stopAutoRotate();
+                goToSlide(i);
+                startAutoRotate();
+            });
             indicatorsContainer.appendChild(dot);
         });
 
-        const dots = indicatorsContainer.querySelectorAll('.carousel-dot');
+        const dots = Array.from(document.querySelectorAll('.carousel-dot'));
 
-        function getSlideWidth() {
-            return window.innerWidth;
+        function wrapOffset(index, activeIndex) {
+            let offset = index - activeIndex;
+            const half = Math.floor(totalSlides / 2);
+
+            if (offset > half) offset -= totalSlides;
+            if (offset < -half) offset += totalSlides;
+
+            return offset;
+        }
+
+        function updateCarousel() {
+            slides.forEach((slide, i) => {
+                const offset = wrapOffset(i, currentIndex);
+                const abs = Math.abs(offset);
+
+                slide.style.pointerEvents = abs === 0 ? 'auto' : 'none';
+
+                if (abs === 0) {
+                    slide.style.opacity = '1';
+                    slide.style.filter = 'brightness(1) saturate(1)';
+                    slide.style.zIndex = '20';
+                    slide.style.transform = 'translateX(0) translateZ(0) rotateY(0deg) scale(1)';
+                } else if (abs === 1) {
+                    const direction = offset > 0 ? 1 : -1;
+                    slide.style.opacity = '0.48';
+                    slide.style.filter = 'brightness(0.58) saturate(0.72)';
+                    slide.style.zIndex = '10';
+                    slide.style.transform = `translateX(${direction * 58}vw) translateZ(-170px) rotateY(${direction * -28}deg) scale(0.86)`;
+                } else {
+                    const direction = offset > 0 ? 1 : -1;
+                    slide.style.opacity = '0';
+                    slide.style.filter = 'brightness(0.4) saturate(0.5)';
+                    slide.style.zIndex = '1';
+                    slide.style.transform = `translateX(${direction * 92}vw) translateZ(-320px) rotateY(${direction * -40}deg) scale(0.72)`;
+                }
+            });
+
+            dots.forEach((dot, i) => dot.classList.toggle('active', i === currentIndex));
         }
 
         function goToSlide(index) {
-            currentIndex = index;
-            const slideWidth = getSlideWidth();
-            currentTranslate = -index * slideWidth;
-            prevTranslate = currentTranslate;
-            setSliderPosition();
-            updateDots();
+            currentIndex = (index + totalSlides) % totalSlides;
+            updateCarousel();
         }
 
-        function updateDots() {
-            dots.forEach((dot, i) => {
-                dot.classList.toggle('active', i === currentIndex);
-            });
+        function nextSlide() {
+            goToSlide(currentIndex + 1);
         }
 
-        function setSliderPosition() {
-            track.style.transform = `translateX(${currentTranslate}px)`;
-        }
-
-        function animation() {
-            setSliderPosition();
-            if (isDragging) requestAnimationFrame(animation);
+        function prevSlide() {
+            goToSlide(currentIndex - 1);
         }
 
         function startAutoRotate() {
-            autoRotateInterval = setInterval(() => {
-                if (!isDragging && !touchStarted) {
-                    currentIndex = (currentIndex + 1) % totalSlides;
-                    goToSlide(currentIndex);
-                }
-            }, 5000);
+            if (window.innerWidth > 768) return;
+            stopAutoRotate();
+            autoRotateInterval = setInterval(nextSlide, 4200);
         }
 
         function stopAutoRotate() {
-            clearInterval(autoRotateInterval);
+            if (autoRotateInterval) clearInterval(autoRotateInterval);
+            autoRotateInterval = null;
         }
 
-        track.addEventListener('touchstart', (e) => {
-            touchStarted = true;
-            stopAutoRotate();
+        function pointerStart(x, y) {
             isDragging = true;
-            startPos = e.touches[0].clientX;
-            animationID = requestAnimationFrame(animation);
-            track.style.transition = 'none';
-        }, { passive: true });
-
-        track.addEventListener('touchmove', (e) => {
-            if (!isDragging) return;
-            const currentPos = e.touches[0].clientX;
-            const diff = currentPos - startPos;
-            currentTranslate = prevTranslate + diff;
-        }, { passive: true });
-
-        track.addEventListener('touchend', () => {
-            isDragging = false;
-            cancelAnimationFrame(animationID);
-            track.style.transition = 'transform 0.5s cubic-bezier(0.23, 1, 0.32, 1)';
-
-            const movedBy = currentTranslate - prevTranslate;
-
-            if (movedBy < -50 && currentIndex < totalSlides - 1) {
-                currentIndex++;
-            } else if (movedBy > 50 && currentIndex > 0) {
-                currentIndex--;
-            }
-
-            goToSlide(currentIndex);
-        });
-
-        track.addEventListener('mousedown', (e) => {
-            touchStarted = true;
+            didMove = false;
+            startX = x;
+            startY = y;
             stopAutoRotate();
-            isDragging = true;
-            startPos = e.clientX;
-            animationID = requestAnimationFrame(animation);
-            track.style.transition = 'none';
-        });
+        }
 
-        track.addEventListener('mousemove', (e) => {
+        function pointerMove(x, y) {
             if (!isDragging) return;
-            const currentPos = e.clientX;
-            const diff = currentPos - startPos;
-            currentTranslate = prevTranslate + diff;
-        });
 
-        track.addEventListener('mouseup', () => {
+            const dx = x - startX;
+            const dy = y - startY;
+
+            if (Math.abs(dx) > 12 && Math.abs(dx) > Math.abs(dy)) {
+                didMove = true;
+            }
+        }
+
+        function pointerEnd(x) {
+            if (!isDragging) return;
+
+            const dx = x - startX;
+
+            if (didMove) {
+                if (dx < -38) nextSlide();
+                if (dx > 38) prevSlide();
+            }
+
             isDragging = false;
-            cancelAnimationFrame(animationID);
-            track.style.transition = 'transform 0.5s cubic-bezier(0.23, 1, 0.32, 1)';
-
-            const movedBy = currentTranslate - prevTranslate;
-
-            if (movedBy < -50 && currentIndex < totalSlides - 1) {
-                currentIndex++;
-            } else if (movedBy > 50 && currentIndex > 0) {
-                currentIndex--;
-            }
-
-            goToSlide(currentIndex);
-        });
-
-        track.addEventListener('mouseleave', () => {
-            if (isDragging) {
-                isDragging = false;
-                cancelAnimationFrame(animationID);
-                track.style.transition = 'transform 0.5s cubic-bezier(0.23, 1, 0.32, 1)';
-                goToSlide(currentIndex);
-            }
-        });
-
-        if (window.innerWidth <= 768) {
             startAutoRotate();
         }
 
-        window.addEventListener('resize', () => {
-            goToSlide(currentIndex);
+        carouselSection.addEventListener('touchstart', (e) => {
+            pointerStart(e.touches[0].clientX, e.touches[0].clientY);
+        }, { passive: true });
+
+        carouselSection.addEventListener('touchmove', (e) => {
+            pointerMove(e.touches[0].clientX, e.touches[0].clientY);
+        }, { passive: true });
+
+        carouselSection.addEventListener('touchend', (e) => {
+            const x = e.changedTouches[0] ? e.changedTouches[0].clientX : startX;
+            pointerEnd(x);
+        }, { passive: true });
+
+        carouselSection.addEventListener('mousedown', (e) => {
+            pointerStart(e.clientX, e.clientY);
         });
+
+        carouselSection.addEventListener('mousemove', (e) => {
+            pointerMove(e.clientX, e.clientY);
+        });
+
+        carouselSection.addEventListener('mouseup', (e) => {
+            pointerEnd(e.clientX);
+        });
+
+        carouselSection.addEventListener('mouseleave', () => {
+            if (isDragging) {
+                isDragging = false;
+                startAutoRotate();
+            }
+        });
+
+        slides.forEach(slide => {
+            slide.addEventListener('click', (e) => {
+                if (didMove) {
+                    e.preventDefault();
+                    e.stopPropagation();
+                }
+            });
+        });
+
+        window.addEventListener('resize', () => {
+            updateCarousel();
+            if (window.innerWidth <= 768) startAutoRotate();
+            else stopAutoRotate();
+        });
+
+        updateCarousel();
+        startAutoRotate();
     </script>
 
 </body>
