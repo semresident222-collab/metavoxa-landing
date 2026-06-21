@@ -6,7 +6,6 @@
     <title>MetaVoxa — An institutional ecosystem for surfacing what systems do not see.</title>
     <meta name="description" content="MetaVoxa is an institutional ecosystem built across five rooms: Atrium, Labs, Press, Research, and Founder. Surfacing what systems do not see.">
 
-    <!-- Schema.org -->
     <script type="application/ld+json">
     {
       "@context": "https://schema.org",
@@ -72,7 +71,7 @@
             flex-direction: column;
             justify-content: center;
             align-items: center;
-            transition: opacity 1.2s cubic-bezier(0.23, 1, 0.32, 1), visibility 1.2s;
+            transition: opacity 1.5s cubic-bezier(0.23, 1, 0.32, 1), visibility 1.5s;
         }
 
         .intro-overlay.hidden {
@@ -86,24 +85,50 @@
             display: flex;
             flex-direction: column;
             align-items: center;
-            gap: 2rem;
+            gap: 2.5rem;
+        }
+
+        /* Seal wrapper - tight fit, no extra ring */
+        .intro-seal-wrap {
+            position: relative;
+            width: 100px;
+            height: 100px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
         }
 
         .intro-seal {
-            width: 120px;
-            height: 120px;
+            width: 100%;
+            height: 100%;
             border-radius: 50%;
             object-fit: cover;
-            border: 2px solid rgba(201, 169, 110, 0.3);
-            animation: seal-spin-scale 3.5s cubic-bezier(0.23, 1, 0.32, 1) forwards;
-            filter: drop-shadow(0 0 30px rgba(201, 169, 110, 0.2));
+            /* No border, no extra glow ring - just the seal itself */
+            animation: seal-zoom-flip 4s cubic-bezier(0.23, 1, 0.32, 1) forwards;
+            filter: drop-shadow(0 0 20px rgba(201, 169, 110, 0.15));
         }
 
-        @keyframes seal-spin-scale {
-            0% { transform: scale(0.3) rotate(-180deg); opacity: 0; }
-            40% { transform: scale(1) rotate(0deg); opacity: 1; }
-            70% { transform: scale(1.05) rotate(0deg); opacity: 1; }
-            100% { transform: scale(1) rotate(0deg); opacity: 1; }
+        @keyframes seal-zoom-flip {
+            0% { 
+                transform: scale(0.2) rotateY(-180deg); 
+                opacity: 0; 
+            }
+            30% { 
+                transform: scale(0.8) rotateY(-90deg); 
+                opacity: 0.6; 
+            }
+            60% { 
+                transform: scale(1.05) rotateY(0deg); 
+                opacity: 1; 
+            }
+            80% { 
+                transform: scale(0.98) rotateY(0deg); 
+                opacity: 1; 
+            }
+            100% { 
+                transform: scale(1) rotateY(0deg); 
+                opacity: 1; 
+            }
         }
 
         .intro-title {
@@ -113,7 +138,7 @@
             letter-spacing: 0.35em;
             color: var(--gold-primary);
             opacity: 0;
-            animation: fade-in 1s ease-out 1.5s forwards;
+            animation: fade-in 1.2s ease-out 2.5s forwards;
         }
 
         .intro-divider {
@@ -121,7 +146,7 @@
             height: 1px;
             background: linear-gradient(90deg, transparent, var(--gold-primary), transparent);
             opacity: 0;
-            animation: fade-in 1s ease-out 1.8s forwards;
+            animation: fade-in 1.2s ease-out 2.9s forwards;
         }
 
         .intro-tagline {
@@ -131,7 +156,7 @@
             font-style: italic;
             color: var(--text-secondary);
             opacity: 0;
-            animation: fade-in 1s ease-out 2.1s forwards;
+            animation: fade-in 1.2s ease-out 3.3s forwards;
         }
 
         .intro-skip {
@@ -148,7 +173,7 @@
             cursor: pointer;
             transition: all 0.4s ease;
             opacity: 0;
-            animation: fade-in 1s ease-out 2.5s forwards;
+            animation: fade-in 1s ease-out 3.8s forwards;
         }
 
         .intro-skip:hover {
@@ -158,15 +183,14 @@
         }
 
         @keyframes fade-in {
-            from { opacity: 0; transform: translateY(10px); }
+            from { opacity: 0; transform: translateY(15px); }
             to { opacity: 1; transform: translateY(0); }
         }
 
         @keyframes stamp-press {
-            0% { transform: scale(1); }
-            30% { transform: scale(1.15); }
-            60% { transform: scale(0.95); }
-            100% { transform: scale(1); opacity: 0; }
+            0% { transform: scale(1) rotateY(0deg); }
+            30% { transform: scale(1.1) rotateY(0deg); }
+            100% { transform: scale(0.1) rotateY(0deg); opacity: 0; }
         }
 
         .intro-overlay.stamping .intro-seal {
@@ -177,7 +201,7 @@
         .intro-overlay.stamping .intro-divider,
         .intro-overlay.stamping .intro-tagline,
         .intro-overlay.stamping .intro-skip {
-            animation: fade-out 0.5s ease-out forwards;
+            animation: fade-out 0.6s ease-out forwards;
         }
 
         @keyframes fade-out {
@@ -319,10 +343,12 @@
             position: relative;
             max-width: 1400px;
             margin: 0 auto;
+            width: 100%;
             aspect-ratio: 16 / 9;
             min-height: 500px;
             overflow: hidden;
             border: 1px solid var(--border-subtle);
+            background: var(--bg-charcoal);
         }
 
         .panoramic-bg {
@@ -330,8 +356,10 @@
             top: 0; left: 0;
             width: 100%; height: 100%;
             object-fit: cover;
+            object-position: center;
             filter: brightness(0.5) saturate(0.7);
             transition: all 0.8s ease;
+            display: block;
         }
 
         .panoramic-container:hover .panoramic-bg {
@@ -502,6 +530,7 @@
             border: 1px solid var(--border-subtle);
             flex-shrink: 0;
             text-decoration: none;
+            background: var(--bg-charcoal);
         }
 
         .carousel-slide:first-child {
@@ -513,7 +542,9 @@
             top: 0; left: 0;
             width: 100%; height: 100%;
             object-fit: cover;
+            object-position: center;
             filter: brightness(0.5) saturate(0.7);
+            display: block;
         }
 
         .carousel-slide::before {
@@ -643,7 +674,7 @@
                 letter-spacing: 0.2em;
             }
 
-            .intro-seal {
+            .intro-seal-wrap {
                 width: 80px;
                 height: 80px;
             }
@@ -672,7 +703,9 @@
     <!-- INTRO OVERLAY -->
     <div class="intro-overlay" id="introOverlay">
         <div class="intro-seal-container">
-            <img src="seal.jpg" alt="MetaVoxa Wax Seal" class="intro-seal" id="introSeal">
+            <div class="intro-seal-wrap">
+                <img src="seal.jpg" alt="MetaVoxa Wax Seal" class="intro-seal" id="introSeal">
+            </div>
             <h2 class="intro-title">METAVOXA</h2>
             <div class="intro-divider"></div>
             <p class="intro-tagline">An institutional ecosystem</p>
@@ -702,7 +735,7 @@
         <!-- DESKTOP: ALL-FIVE PANORAMIC -->
         <section class="doors-section" id="doorsSection">
             <div class="panoramic-container">
-                <img src="all-five.jpg" alt="MetaVoxa — Five Rooms" class="panoramic-bg">
+                <img src="all-five.jpg" alt="MetaVoxa — Five Rooms" class="panoramic-bg" onerror="this.style.display='none'; this.parentElement.style.background='var(--bg-charcoal)';">
                 <div class="panoramic-overlay"></div>
                 <div class="doors-overlay">
                     <a href="https://atrium.metavoxa.com" class="door-zone" target="_blank" rel="noopener">
@@ -753,7 +786,7 @@
         <section class="carousel-section" id="carouselSection">
             <div class="carousel-track" id="carouselTrack">
                 <a href="https://atrium.metavoxa.com" class="carousel-slide" target="_blank" rel="noopener">
-                    <img src="atrium.jpg" alt="Atrium" class="carousel-slide-bg">
+                    <img src="atrium.jpg" alt="Atrium" class="carousel-slide-bg" onerror="this.style.display='none';">
                     <div class="carousel-slide-content">
                         <h2 class="carousel-slide-name">Atrium</h2>
                         <div class="carousel-slide-star">✦</div>
@@ -762,7 +795,7 @@
                     </div>
                 </a>
                 <a href="https://labs.metavoxa.com" class="carousel-slide" target="_blank" rel="noopener">
-                    <img src="labs.jpg" alt="Labs" class="carousel-slide-bg">
+                    <img src="labs.jpg" alt="Labs" class="carousel-slide-bg" onerror="this.style.display='none';">
                     <div class="carousel-slide-content">
                         <h2 class="carousel-slide-name">Labs</h2>
                         <div class="carousel-slide-star">✦</div>
@@ -771,7 +804,7 @@
                     </div>
                 </a>
                 <a href="https://press.metavoxa.com" class="carousel-slide" target="_blank" rel="noopener">
-                    <img src="press.jpg" alt="Press" class="carousel-slide-bg">
+                    <img src="press.jpg" alt="Press" class="carousel-slide-bg" onerror="this.style.display='none';">
                     <div class="carousel-slide-content">
                         <h2 class="carousel-slide-name">Press</h2>
                         <div class="carousel-slide-star">✦</div>
@@ -780,7 +813,7 @@
                     </div>
                 </a>
                 <a href="https://research.metavoxa.com" class="carousel-slide" target="_blank" rel="noopener">
-                    <img src="research.jpg" alt="Research" class="carousel-slide-bg">
+                    <img src="research.jpg" alt="Research" class="carousel-slide-bg" onerror="this.style.display='none';">
                     <div class="carousel-slide-content">
                         <h2 class="carousel-slide-name">Research</h2>
                         <div class="carousel-slide-star">✦</div>
@@ -789,7 +822,7 @@
                     </div>
                 </a>
                 <a href="https://www.marthakoroma.com" class="carousel-slide" target="_blank" rel="noopener">
-                    <img src="founder.jpg" alt="Founder" class="carousel-slide-bg">
+                    <img src="founder.jpg" alt="Founder" class="carousel-slide-bg" onerror="this.style.display='none';">
                     <div class="carousel-slide-content">
                         <h2 class="carousel-slide-name">Founder</h2>
                         <div class="carousel-slide-star">✦</div>
@@ -841,7 +874,7 @@
             introOverlay.style.display = 'none';
             mainLanding.classList.add('visible');
         } else {
-            setTimeout(endIntro, 4200);
+            setTimeout(endIntro, 5200);
             skipBtn.addEventListener('click', () => {
                 endIntro();
             });
