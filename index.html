@@ -103,7 +103,7 @@
             opacity: 0;
             transform: translateY(12px);
             margin-left: 0.42em;
-            animation: intro-copy-in 1s ease 0.25s forwards;
+            animation: intro-copy-in 5s ease 2.95s forwards;
         }
 
         .intro-tagline {
@@ -114,7 +114,7 @@
             opacity: 0;
             transform: translateY(10px);
             line-height: 1.45;
-            animation: intro-copy-in 1s ease 0.65s forwards;
+            animation: intro-copy-in 8s ease 3.95s forwards;
         }
 
         .intro-tagline em {
@@ -132,7 +132,7 @@
 
         .intro-overlay.leaving .intro-title,
         .intro-overlay.leaving .intro-tagline {
-            animation: intro-soft-out 0.7s ease forwards;
+            animation: intro-soft-out 10.0s ease forwards;
         }
 
         @keyframes intro-soft-out {
@@ -632,8 +632,6 @@
     <main class="main-landing" id="mainLanding">
 
         <!-- DESKTOP: BLANK IMAGE WITH CODE-GENERATED TEXT OVERLAY -->
-        <section class="scene" aria-label="MetaVoxa five rooms">
-            <img src="all-five-blank.jpg" alt="MetaVoxa — Five Rooms" class="scene-bg">
 
             <div class="scene-copy" aria-hidden="true">
                 <h1 class="landing-title">METAVOXA</h1>
@@ -746,7 +744,7 @@
         }
 
         window.addEventListener('load', () => {
-            setTimeout(endIntro, 2500);
+            setTimeout(endIntro, 5500);
         });
 
         // ===== MOBILE 3D CAROUSEL =====
