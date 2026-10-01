@@ -3,8 +3,14 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+
     <title>MetaVoxa — An institutional ecosystem for surfacing what systems do not see.</title>
-    <meta name="description" content="MetaVoxa is an institutional ecosystem built across four Arms: Labs, Press, Research, and Founder. Surfacing what systems do not see.">
+
+    <meta
+        name="description"
+        content="MetaVoxa is an institutional ecosystem built across three Arms: Labs, Press, and Research, alongside its Founder. Surfacing what systems do not see."
+    >
+
     <link rel="icon" type="image/png" href="/favicon.png">
 
     <script type="application/ld+json">
@@ -32,7 +38,11 @@
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;600;700&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400;1,500&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
+
+    <link
+        href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;600;700&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400;1,500&family=Inter:wght@300;400;500&display=swap"
+        rel="stylesheet"
+    >
 
     <style>
         :root {
@@ -43,7 +53,12 @@
             --text-primary: #e8e0d4;
             --text-secondary: #cfc3b4;
             --text-muted: #8f8170;
-            --image-ratio: 1280 / 853;
+
+            /*
+             * New four-door image:
+             * 1536 × 1024
+             */
+            --image-ratio: 1536 / 1024;
         }
 
         * {
@@ -63,20 +78,34 @@
             -webkit-font-smoothing: antialiased;
         }
 
-        /* ===== INTRO OVERLAY ===== */
+        /* =========================================================
+           INTRO OVERLAY
+           ========================================================= */
+
         .intro-overlay {
             position: fixed;
             inset: 0;
             background:
-                radial-gradient(circle at center, rgba(201, 169, 110, 0.065) 0%, transparent 48%),
+                radial-gradient(
+                    circle at center,
+                    rgba(201, 169, 110, 0.065) 0%,
+                    transparent 48%
+                ),
                 var(--bg-deep);
+
             z-index: 1000;
+
             display: flex;
             justify-content: center;
             align-items: center;
+
             opacity: 1;
             visibility: visible;
-            transition: opacity 1.05s ease, visibility 1.05s ease;
+
+            transition:
+                opacity 1.05s ease,
+                visibility 1.05s ease;
+
             pointer-events: auto;
         }
 
@@ -91,6 +120,7 @@
             flex-direction: column;
             align-items: center;
             gap: 1rem;
+
             text-align: center;
             padding: 2rem;
         }
@@ -99,23 +129,41 @@
             font-family: 'Cinzel', serif;
             font-size: clamp(1.55rem, 4vw, 3rem);
             font-weight: 400;
+
             letter-spacing: 0.42em;
+            margin-left: 0.42em;
+
             color: var(--gold-primary);
+
             opacity: 0;
             transform: translateY(12px);
-            margin-left: 0.42em;
-            animation: intro-copy-in 5s ease 2.95s forwards;
+
+            animation:
+                intro-copy-in
+                5s
+                ease
+                2.95s
+                forwards;
         }
 
         .intro-tagline {
             font-family: 'Cormorant Garamond', serif;
             font-size: clamp(0.95rem, 1.8vw, 1.25rem);
             font-weight: 300;
+
             color: var(--text-secondary);
+
             opacity: 0;
             transform: translateY(10px);
+
             line-height: 1.45;
-            animation: intro-copy-in 8s ease 3.95s forwards;
+
+            animation:
+                intro-copy-in
+                8s
+                ease
+                3.95s
+                forwards;
         }
 
         .intro-tagline em {
@@ -133,23 +181,39 @@
 
         .intro-overlay.leaving .intro-title,
         .intro-overlay.leaving .intro-tagline {
-            animation: intro-soft-out 10.0s ease forwards;
+            animation:
+                intro-soft-out
+                10s
+                ease
+                forwards;
         }
 
         @keyframes intro-soft-out {
             to {
                 opacity: 0;
-                transform: translateY(-6px) scale(0.985);
+                transform:
+                    translateY(-6px)
+                    scale(0.985);
             }
         }
 
-        /* ===== MAIN LANDING ===== */
+        /* =========================================================
+           MAIN LANDING
+           ========================================================= */
+
         .main-landing {
             position: fixed;
             inset: 0;
+
             opacity: 0;
-            transition: opacity 1.25s ease-out;
+
+            transition:
+                opacity
+                1.25s
+                ease-out;
+
             overflow: hidden;
+
             background: var(--bg-deep);
         }
 
@@ -157,404 +221,791 @@
             opacity: 1;
         }
 
-        /* 
-           Cover scene keeps text locked to the blank canvas.
-           The blank image and all overlay writing scale together.
-        */
+        /*
+         * The image and generated overlay scale together.
+         * This prevents the labels from drifting away from
+         * their corresponding doors.
+         */
+
         .scene {
             position: fixed;
+
             top: 50%;
             left: 50%;
-            width: max(100vw, calc(100vh * var(--image-ratio)));
-            height: max(100vh, calc(100vw / var(--image-ratio)));
-            transform: translate(-50%, -50%);
+
+            width:
+                max(
+                    100vw,
+                    calc(100vh * var(--image-ratio))
+                );
+
+            height:
+                max(
+                    100vh,
+                    calc(100vw / var(--image-ratio))
+                );
+
+            transform:
+                translate(-50%, -50%);
+
             z-index: 1;
+
             overflow: hidden;
         }
 
         .scene-bg {
             position: absolute;
             inset: 0;
+
             width: 100%;
             height: 100%;
+
             object-fit: cover;
             object-position: center;
+
             user-select: none;
             -webkit-user-drag: none;
+
             z-index: 1;
         }
 
         .scene-copy {
             position: absolute;
             inset: 0;
+
             z-index: 4;
+
             pointer-events: none;
         }
 
-        /* ===== TOP TITLE AREA ===== */
+        /* =========================================================
+           TOP TITLE AREA
+           ========================================================= */
+
         .landing-title {
             position: absolute;
+
             top: 3.6%;
             left: 50%;
-            transform: translateX(-50%);
-            font-family: 'Cinzel', serif;
-            font-size: clamp(2rem, 5.1vw, 4.65rem);
+
+            transform:
+                translateX(-50%);
+
+            font-family:
+                'Cinzel',
+                serif;
+
+            font-size:
+                clamp(
+                    2rem,
+                    5.1vw,
+                    4.65rem
+                );
+
             font-weight: 400;
+
             letter-spacing: 0.32em;
             margin-left: 0.32em;
+
             color: #d7b58a;
+
             text-shadow:
                 0 1px 0 rgba(255, 235, 190, 0.28),
                 0 0 18px rgba(0, 0, 0, 0.45);
+
             white-space: nowrap;
         }
 
         .title-divider {
             position: absolute;
+
             top: 12.1%;
             left: 50%;
-            transform: translateX(-50%);
+
+            transform:
+                translateX(-50%);
+
             display: flex;
             align-items: center;
+
             gap: 0.8rem;
+
             color: #c9a96e;
+
             opacity: 0.84;
         }
 
         .title-divider::before,
         .title-divider::after {
             content: '';
+
             display: block;
-            width: clamp(48px, 8vw, 110px);
+
+            width:
+                clamp(
+                    48px,
+                    8vw,
+                    110px
+                );
+
             height: 1px;
-            background: linear-gradient(90deg, transparent, rgba(201, 169, 110, 0.86), transparent);
+
+            background:
+                linear-gradient(
+                    90deg,
+                    transparent,
+                    rgba(201, 169, 110, 0.86),
+                    transparent
+                );
         }
 
         .title-star {
-            font-family: 'Cinzel', serif;
-            font-size: clamp(0.9rem, 1.4vw, 1.4rem);
+            font-family:
+                'Cinzel',
+                serif;
+
+            font-size:
+                clamp(
+                    0.9rem,
+                    1.4vw,
+                    1.4rem
+                );
+
             line-height: 1;
         }
 
         .landing-subtitle {
             position: absolute;
+
             top: 14.1%;
             left: 50%;
-            transform: translateX(-50%);
+
+            transform:
+                translateX(-50%);
+
             width: 44%;
+
             text-align: center;
-            font-family: 'Cormorant Garamond', serif;
-            font-size: clamp(0.95rem, 1.75vw, 1.45rem);
+
+            font-family:
+                'Cormorant Garamond',
+                serif;
+
+            font-size:
+                clamp(
+                    0.95rem,
+                    1.75vw,
+                    1.45rem
+                );
+
             font-weight: 400;
+
             line-height: 1.08;
             letter-spacing: 0.08em;
+
             color: #d9cabb;
-            text-shadow: 0 2px 10px rgba(0, 0, 0, 0.55);
+
+            text-shadow:
+                0 2px 10px
+                rgba(0, 0, 0, 0.55);
         }
 
         .landing-subtitle em {
             font-style: italic;
+
             color: #efe3d3;
+
             letter-spacing: 0.06em;
         }
 
-        /* ===== ABOUT LINK ===== */
+        /* =========================================================
+           ABOUT LINK
+           ========================================================= */
+
         .about-link {
             position: absolute;
+
             top: 3.2%;
             right: 2.4%;
+
             z-index: 10;
-            font-family: 'Cinzel', serif;
-            font-size: clamp(0.65rem, 1vw, 0.9rem);
+
+            font-family:
+                'Cinzel',
+                serif;
+
+            font-size:
+                clamp(
+                    0.65rem,
+                    1vw,
+                    0.9rem
+                );
+
             letter-spacing: 0.34em;
+
             color: #d7b58a;
+
             text-decoration: none;
             text-transform: uppercase;
+
             opacity: 0.94;
+
             pointer-events: auto;
-            text-shadow: 0 1px 10px rgba(0, 0, 0, 0.55);
-            transition: color 0.3s ease, opacity 0.3s ease, text-shadow 0.3s ease;
+
+            text-shadow:
+                0 1px 10px
+                rgba(0, 0, 0, 0.55);
+
+            transition:
+                color 0.3s ease,
+                opacity 0.3s ease,
+                text-shadow 0.3s ease;
         }
 
         .about-link::after {
             content: '•';
+
             margin-left: 0.75rem;
+
             color: var(--gold-bright);
         }
 
         .about-link:hover {
             color: var(--gold-bright);
+
             opacity: 1;
-            text-shadow: 0 0 18px rgba(201, 169, 110, 0.42);
+
+            text-shadow:
+                0 0 18px
+                rgba(201, 169, 110, 0.42);
         }
 
-        /* ===== DOOR TEXT ===== */
+        /* =========================================================
+           DOOR LABELS
+           NEW IMAGE:
+           LABS / PRESS / RESEARCH / FOUNDER
+           ========================================================= */
+
         .door-copy {
             position: absolute;
+
             top: 72.7%;
-            transform: translateX(-50%);
-            width: 16%;
+
+            transform:
+                translateX(-50%);
+
+            width: 18%;
+
             text-align: center;
+
             text-shadow:
                 0 2px 8px rgba(0, 0, 0, 0.72),
                 0 0 16px rgba(0, 0, 0, 0.45);
         }
 
-        .door-copy.atrium { left: 10.6%; }
-        .door-copy.labs { left: 30.2%; }
-        .door-copy.press { left: 49.1%; }
-        .door-copy.research { left: 68.1%; }
-        .door-copy.founder { left: 88.5%; }
+        /*
+         * Centers recalibrated to match the four
+         * physical openings in the new image.
+         */
+
+        .door-copy.labs {
+            left: 18.1%;
+        }
+
+        .door-copy.press {
+            left: 39.3%;
+        }
+
+        .door-copy.research {
+            left: 60.4%;
+        }
+
+        .door-copy.founder {
+            left: 82.2%;
+        }
 
         .door-title {
-            font-family: 'Cinzel', serif;
-            font-size: clamp(0.9rem, 2vw, 1.75rem);
+            font-family:
+                'Cinzel',
+                serif;
+
+            font-size:
+                clamp(
+                    0.9rem,
+                    2vw,
+                    1.75rem
+                );
+
             font-weight: 400;
+
             letter-spacing: 0.26em;
             margin-left: 0.26em;
+
             color: #ead6bc;
+
             text-transform: uppercase;
         }
 
         .door-star {
             display: block;
-            margin: 0.35rem auto 0.42rem;
-            font-family: 'Cinzel', serif;
-            font-size: clamp(0.45rem, 0.75vw, 0.68rem);
+
+            margin:
+                0.35rem
+                auto
+                0.42rem;
+
+            font-family:
+                'Cinzel',
+                serif;
+
+            font-size:
+                clamp(
+                    0.45rem,
+                    0.75vw,
+                    0.68rem
+                );
+
             color: #c9a96e;
+
             opacity: 0.76;
         }
 
         .door-description {
-            font-family: 'Cormorant Garamond', serif;
-            font-size: clamp(0.68rem, 1.15vw, 1rem);
+            font-family:
+                'Cormorant Garamond',
+                serif;
+
+            font-size:
+                clamp(
+                    0.68rem,
+                    1.15vw,
+                    1rem
+                );
+
             font-weight: 400;
+
             line-height: 1.22;
+
             color: #e8ded1;
+
             max-width: 13rem;
+
             margin: 0 auto;
         }
 
         .door-line {
             display: block;
-            width: clamp(22px, 3vw, 42px);
+
+            width:
+                clamp(
+                    22px,
+                    3vw,
+                    42px
+                );
+
             height: 1px;
-            margin: 0.75rem auto 0;
-            background: rgba(201, 169, 110, 0.84);
+
+            margin:
+                0.75rem
+                auto
+                0;
+
+            background:
+                rgba(
+                    201,
+                    169,
+                    110,
+                    0.84
+                );
         }
 
-        /* ===== BOTTOM MOTTO ===== */
+        /* =========================================================
+           BOTTOM MOTTO
+           ========================================================= */
+
         .bottom-values {
             position: absolute;
+
             bottom: 5.6%;
             left: 50%;
-            transform: translateX(-50%);
+
+            transform:
+                translateX(-50%);
+
             width: 58%;
+
             text-align: center;
-            font-family: 'Cinzel', serif;
-            font-size: clamp(0.5rem, 0.86vw, 0.82rem);
+
+            font-family:
+                'Cinzel',
+                serif;
+
+            font-size:
+                clamp(
+                    0.5rem,
+                    0.86vw,
+                    0.82rem
+                );
+
             font-weight: 400;
+
             letter-spacing: 0.34em;
+
             color: #d6c0a2;
+
             text-transform: uppercase;
+
             opacity: 0.9;
+
             white-space: nowrap;
-            text-shadow: 0 2px 10px rgba(0, 0, 0, 0.75);
+
+            text-shadow:
+                0 2px 10px
+                rgba(0, 0, 0, 0.75);
         }
 
         .bottom-url {
             position: absolute;
+
             bottom: 2.2%;
             left: 50%;
-            transform: translateX(-50%);
-            font-family: 'Cinzel', serif;
-            font-size: clamp(0.72rem, 1.22vw, 1rem);
+
+            transform:
+                translateX(-50%);
+
+            font-family:
+                'Cinzel',
+                serif;
+
+            font-size:
+                clamp(
+                    0.72rem,
+                    1.22vw,
+                    1rem
+                );
+
             letter-spacing: 0.44em;
             margin-left: 0.44em;
+
             color: #c9a96e;
+
             text-transform: uppercase;
+
             opacity: 0.94;
-            text-shadow: 0 2px 10px rgba(0, 0, 0, 0.72);
+
+            text-shadow:
+                0 2px 10px
+                rgba(0, 0, 0, 0.72);
+
             white-space: nowrap;
         }
 
-        /* ===== DESKTOP CLICK ZONES ===== */
+        /* =========================================================
+           DESKTOP CLICK ZONES
+           ========================================================= */
+
         .doors-overlay {
             position: absolute;
             inset: 0;
+
             z-index: 6;
+
             pointer-events: none;
         }
 
         .door-zone {
             position: absolute;
+
             top: 15%;
             bottom: 12%;
+
             text-decoration: none;
+
             pointer-events: auto;
+
             cursor: pointer;
+
             background: transparent;
+
             overflow: hidden;
+
             isolation: isolate;
         }
 
-        .door-zone.atrium-zone {
-            left: 0.4%;
+        /*
+         * Click zones follow the actual four door openings
+         * in the replacement image.
+         */
+
+        .door-zone.labs-zone {
+            left: 7.8%;
             width: 20.6%;
         }
 
-        .door-zone.labs-zone {
-            left: 22%;
-            width: 16.2%;
-        }
-
         .door-zone.press-zone {
-            left: 39.4%;
-            width: 17.8%;
+            left: 30%;
+            width: 18.6%;
         }
 
         .door-zone.research-zone {
-            left: 58.8%;
-            width: 17.8%;
+            left: 51.1%;
+            width: 18.6%;
         }
 
         .door-zone.founder-zone {
-            left: 78.2%;
-            width: 20.4%;
+            left: 72.4%;
+            width: 19.2%;
         }
+
+        /*
+         * Existing doorway glow effect retained.
+         */
 
         .door-zone::before {
             content: '';
+
             position: absolute;
-            inset: -8% -3%;
+
+            inset:
+                -8%
+                -3%;
+
             opacity: 0;
+
             pointer-events: none;
+
             background:
-                radial-gradient(ellipse 54% 72% at 50% 62%,
+                radial-gradient(
+                    ellipse 54% 72%
+                    at 50% 62%,
                     rgba(212, 175, 55, 0.20) 0%,
                     rgba(201, 169, 110, 0.12) 24%,
                     rgba(201, 169, 110, 0.045) 47%,
-                    transparent 72%),
-                linear-gradient(90deg,
+                    transparent 72%
+                ),
+                linear-gradient(
+                    90deg,
                     transparent 0%,
                     rgba(255, 229, 174, 0.035) 42%,
                     rgba(255, 229, 174, 0.075) 50%,
                     rgba(255, 229, 174, 0.035) 58%,
-                    transparent 100%);
+                    transparent 100%
+                );
+
             mix-blend-mode: screen;
+
             filter: blur(9px);
-            transform: scale(0.84, 0.92);
+
+            transform:
+                scale(
+                    0.84,
+                    0.92
+                );
+
             transition:
                 opacity 0.42s ease,
                 transform 0.58s cubic-bezier(0.23, 1, 0.32, 1),
                 filter 0.42s ease;
-            -webkit-mask-image: radial-gradient(ellipse 55% 78% at 50% 58%, #000 0%, #000 47%, transparent 76%);
-            mask-image: radial-gradient(ellipse 55% 78% at 50% 58%, #000 0%, #000 47%, transparent 76%);
+
+            -webkit-mask-image:
+                radial-gradient(
+                    ellipse 55% 78%
+                    at 50% 58%,
+                    #000 0%,
+                    #000 47%,
+                    transparent 76%
+                );
+
+            mask-image:
+                radial-gradient(
+                    ellipse 55% 78%
+                    at 50% 58%,
+                    #000 0%,
+                    #000 47%,
+                    transparent 76%
+                );
         }
 
         .door-zone:hover::before {
             opacity: 1;
-            transform: scale(1, 1);
-            filter: blur(7px);
+
+            transform:
+                scale(1, 1);
+
+            filter:
+                blur(7px);
         }
 
-        /* ===== MOBILE 3D CAROUSEL ===== */
+        /* =========================================================
+           MOBILE 3D CAROUSEL
+           FOUR DESTINATIONS
+           ========================================================= */
+
         .carousel-section {
             display: none;
+
             position: fixed;
             inset: 0;
+
             z-index: 10;
+
             overflow: hidden;
+
             background:
-                radial-gradient(circle at center, rgba(201, 169, 110, 0.07) 0%, transparent 58%),
+                radial-gradient(
+                    circle at center,
+                    rgba(201, 169, 110, 0.07) 0%,
+                    transparent 58%
+                ),
                 var(--bg-deep);
+
             perspective: 1200px;
+
             touch-action: pan-y;
         }
 
         .carousel-stage {
             position: absolute;
             inset: 0;
+
             perspective: 1200px;
-            transform-style: preserve-3d;
+
+            transform-style:
+                preserve-3d;
         }
 
         .carousel-slide {
             position: absolute;
+
             top: 13vh;
             left: 11vw;
+
             width: 78vw;
             height: 76vh;
+
             overflow: hidden;
+
             text-decoration: none;
-            box-shadow: 0 18px 55px rgba(0, 0, 0, 0.58);
-            transform-style: preserve-3d;
+
+            box-shadow:
+                0 18px 55px
+                rgba(0, 0, 0, 0.58);
+
+            transform-style:
+                preserve-3d;
+
             transition:
                 transform 0.75s cubic-bezier(0.23, 1, 0.32, 1),
                 opacity 0.75s ease,
                 filter 0.75s ease;
-            will-change: transform, opacity, filter;
+
+            will-change:
+                transform,
+                opacity,
+                filter;
+
             background: #111;
         }
 
         .carousel-slide-bg {
             width: 100%;
             height: 100%;
+
             object-fit: cover;
             object-position: center;
+
             display: block;
+
             user-select: none;
             -webkit-user-drag: none;
         }
 
         .carousel-indicators {
             position: fixed;
+
             bottom: 1.3rem;
+
             left: 0;
             right: 0;
+
             display: flex;
             justify-content: center;
+
             gap: 0.58rem;
+
             z-index: 30;
         }
 
         .carousel-dot {
             width: 7px;
             height: 7px;
+
             border-radius: 50%;
+
             background: var(--text-muted);
+
             border: none;
+
             cursor: pointer;
-            transition: all 0.3s ease;
+
+            transition:
+                all 0.3s ease;
+
             padding: 0;
+
             opacity: 0.55;
         }
 
         .carousel-dot.active {
             width: 20px;
+
             border-radius: 99px;
-            background: var(--gold-primary);
+
+            background:
+                var(--gold-primary);
+
             opacity: 1;
-            box-shadow: 0 0 12px rgba(201, 169, 110, 0.45);
+
+            box-shadow:
+                0 0 12px
+                rgba(201, 169, 110, 0.45);
         }
 
         .carousel-hint {
             position: fixed;
+
             left: 0;
             right: 0;
+
             bottom: 2.9rem;
+
             z-index: 30;
+
             text-align: center;
-            font-family: 'Cinzel', serif;
+
+            font-family:
+                'Cinzel',
+                serif;
+
             font-size: 0.58rem;
+
             letter-spacing: 0.28em;
+
             text-transform: uppercase;
+
             color: var(--gold-dim);
+
             opacity: 0.75;
+
             pointer-events: none;
         }
 
+        /* =========================================================
+           TABLET / MOBILE
+           ========================================================= */
+
         @media (max-width: 768px) {
+
             .scene {
                 display: none;
             }
@@ -565,42 +1016,62 @@
 
             .about-link {
                 position: fixed;
+
                 z-index: 80;
+
                 top: 0.9rem;
                 right: 0.8rem;
+
                 font-size: 0.68rem;
+
                 letter-spacing: 0.24em;
-                padding: 0.8rem 0.1rem 0.8rem 0.8rem;
+
+                padding:
+                    0.8rem
+                    0.1rem
+                    0.8rem
+                    0.8rem;
             }
 
             .intro-title {
                 font-size: 1.5rem;
+
                 letter-spacing: 0.28em;
+
                 margin-left: 0.28em;
             }
 
             .intro-tagline {
                 max-width: 280px;
+
                 line-height: 1.45;
             }
         }
 
         @media (max-width: 420px) {
+
             .carousel-slide {
                 top: 14vh;
                 left: 9vw;
+
                 width: 82vw;
                 height: 74vh;
             }
         }
 
         @media (min-width: 769px) {
+
             .carousel-section {
                 display: none !important;
             }
         }
 
+        /* =========================================================
+           REDUCED MOTION
+           ========================================================= */
+
         @media (prefers-reduced-motion: reduce) {
+
             .intro-overlay {
                 display: none;
             }
@@ -618,322 +1089,922 @@
 
 <body>
 
-    <!-- INTRO OVERLAY -->
-    <div class="intro-overlay" id="introOverlay">
+    <!-- =====================================================
+         INTRO
+         ===================================================== -->
+
+    <div
+        class="intro-overlay"
+        id="introOverlay"
+    >
         <div class="intro-copy-container">
-            <h1 class="intro-title">METAVOXA</h1>
+
+            <h1 class="intro-title">
+                METAVOXA
+            </h1>
+
             <p class="intro-tagline">
                 An institutional ecosystem for surfacing<br>
                 <em>what systems do not see.</em>
             </p>
+
         </div>
     </div>
 
-    <!-- MAIN LANDING -->
-    <main class="main-landing" id="mainLanding">
 
-        <!-- DESKTOP: BLANK IMAGE WITH CODE-GENERATED TEXT OVERLAY -->
-            <section class="scene">
-                <img src="all-five.jpg" class="scene-bg">
-                
-                <div class="scene-copy" aria-hidden="true">
-                <h1 class="landing-title">METAVOXA</h1>
+    <!-- =====================================================
+         MAIN LANDING
+         ===================================================== -->
+
+    <main
+        class="main-landing"
+        id="mainLanding"
+    >
+
+        <!-- =================================================
+             DESKTOP FOUR-DOOR IMAGE
+
+             IMPORTANT:
+             The replacement image continues to use
+             the existing filename all-five.jpg
+             ================================================= -->
+
+        <section class="scene">
+
+            <img
+                src="all-five.jpg"
+                class="scene-bg"
+                alt="MetaVoxa — Labs, Press, Research and Founder"
+            >
+
+
+            <!-- =============================================
+                 GENERATED TEXT OVERLAY
+                 ============================================= -->
+
+            <div
+                class="scene-copy"
+                aria-hidden="true"
+            >
+
+                <h1 class="landing-title">
+                    METAVOXA
+                </h1>
+
 
                 <div class="title-divider">
-                    <span class="title-star">*</span>
+
+                    <span class="title-star">
+                        *
+                    </span>
+
                 </div>
+
 
                 <p class="landing-subtitle">
                     An institutional ecosystem for surfacing<br>
                     <em>what systems do not see.</em>
                 </p>
 
-                <a href="about.html" class="about-link" aria-label="About MetaVoxa">About</a>
 
-                <div class="door-copy atrium">
-                    <h2 class="door-title">Atrium</h2>
-                    <span class="door-star">*</span>
-                    <p class="door-description">The full architecture of the mind behind the work.</p>
-                    <span class="door-line"></span>
-                </div>
+                <a
+                    href="about.html"
+                    class="about-link"
+                    aria-label="About MetaVoxa"
+                >
+                    About
+                </a>
+
+
+                <!-- LABS -->
 
                 <div class="door-copy labs">
-                    <h2 class="door-title">Labs</h2>
-                    <span class="door-star">*</span>
-                    <p class="door-description">Where questions are investigated and frameworks are built.</p>
+
+                    <h2 class="door-title">
+                        Labs
+                    </h2>
+
+                    <span class="door-star">
+                        *
+                    </span>
+
+                    <p class="door-description">
+                        Where questions are investigated
+                        and frameworks are built.
+                    </p>
+
                     <span class="door-line"></span>
+
                 </div>
+
+
+                <!-- PRESS -->
 
                 <div class="door-copy press">
-                    <h2 class="door-title">Press</h2>
-                    <span class="door-star">*</span>
-                    <p class="door-description">Where lived experience becomes language.</p>
+
+                    <h2 class="door-title">
+                        Press
+                    </h2>
+
+                    <span class="door-star">
+                        *
+                    </span>
+
+                    <p class="door-description">
+                        Where lived experience
+                        becomes language.
+                    </p>
+
                     <span class="door-line"></span>
+
                 </div>
+
+
+                <!-- RESEARCH -->
 
                 <div class="door-copy research">
-                    <h2 class="door-title">Research</h2>
-                    <span class="door-star">*</span>
-                    <p class="door-description">Where evidence is recorded, verified, and made available.</p>
+
+                    <h2 class="door-title">
+                        Research
+                    </h2>
+
+                    <span class="door-star">
+                        *
+                    </span>
+
+                    <p class="door-description">
+                        Where evidence is recorded,
+                        verified, and made available.
+                    </p>
+
                     <span class="door-line"></span>
+
                 </div>
 
+
+                <!-- FOUNDER -->
+
                 <div class="door-copy founder">
-                    <h2 class="door-title">Founder</h2>
-                    <span class="door-star">*</span>
-                    <p class="door-description">The work, trajectory, and perspective behind MetaVoxa.</p>
+
+                    <h2 class="door-title">
+                        Founder
+                    </h2>
+
+                    <span class="door-star">
+                        *
+                    </span>
+
+                    <p class="door-description">
+                        The work, trajectory,
+                        and perspective behind MetaVoxa.
+                    </p>
+
                     <span class="door-line"></span>
+
                 </div>
+
+
+                <!-- VALUES -->
 
                 <div class="bottom-values">
                     Systems-Aware · Evidence-Driven · Interdisciplinary · Inclusive · Institutional
                 </div>
 
-                <div class="bottom-url">MetaVoxa.com</div>
+
+                <div class="bottom-url">
+                    MetaVoxa.com
+                </div>
+
             </div>
 
-            <nav class="doors-overlay" aria-label="MetaVoxa rooms">
-                <a href="https://atrium.metavoxa.com" class="door-zone atrium-zone" aria-label="Enter Atrium"></a>
-                <a href="https://labs.metavoxa.com" class="door-zone labs-zone" aria-label="Enter Labs"></a>
-                <a href="https://press.metavoxa.com" class="door-zone press-zone" aria-label="Enter Press"></a>
-                <a href="https://research.metavoxa.com" class="door-zone research-zone" aria-label="Enter Research"></a>
-                <a href="https://www.marthakoroma.com" class="door-zone founder-zone" aria-label="Meet the Founder"></a>
+
+            <!-- =============================================
+                 CLICKABLE FOUR-DOOR OVERLAY
+                 ============================================= -->
+
+            <nav
+                class="doors-overlay"
+                aria-label="MetaVoxa destinations"
+            >
+
+                <a
+                    href="https://labs.metavoxa.com"
+                    class="door-zone labs-zone"
+                    aria-label="Enter Labs"
+                ></a>
+
+
+                <a
+                    href="https://press.metavoxa.com"
+                    class="door-zone press-zone"
+                    aria-label="Enter Press"
+                ></a>
+
+
+                <a
+                    href="https://research.metavoxa.com"
+                    class="door-zone research-zone"
+                    aria-label="Enter Research"
+                ></a>
+
+
+                <a
+                    href="https://www.marthakoroma.com"
+                    class="door-zone founder-zone"
+                    aria-label="Meet the Founder"
+                ></a>
+
             </nav>
+
         </section>
 
-        <!-- MOBILE: ROUND / ROTATING CAROUSEL -->
-        <section class="carousel-section" id="carouselSection" aria-label="MetaVoxa carousel">
-            <a href="about.html" class="about-link" aria-label="About MetaVoxa">About</a>
 
-            <div class="carousel-stage" id="carouselStage">
-                <a href="https://atrium.metavoxa.com" class="carousel-slide" aria-label="Enter Atrium">
-                    <img src="atrium.jpg" alt="Atrium" class="carousel-slide-bg">
+        <!-- =================================================
+             MOBILE ROTATING CAROUSEL
+
+             Atrium has been removed.
+             Four destinations remain.
+             ================================================= -->
+
+        <section
+            class="carousel-section"
+            id="carouselSection"
+            aria-label="MetaVoxa carousel"
+        >
+
+            <a
+                href="about.html"
+                class="about-link"
+                aria-label="About MetaVoxa"
+            >
+                About
+            </a>
+
+
+            <div
+                class="carousel-stage"
+                id="carouselStage"
+            >
+
+                <!-- LABS -->
+
+                <a
+                    href="https://labs.metavoxa.com"
+                    class="carousel-slide"
+                    aria-label="Enter Labs"
+                >
+                    <img
+                        src="labs.jpg"
+                        alt="Labs"
+                        class="carousel-slide-bg"
+                    >
                 </a>
 
-                <a href="https://labs.metavoxa.com" class="carousel-slide" aria-label="Enter Labs">
-                    <img src="labs.jpg" alt="Labs" class="carousel-slide-bg">
+
+                <!-- PRESS -->
+
+                <a
+                    href="https://press.metavoxa.com"
+                    class="carousel-slide"
+                    aria-label="Enter Press"
+                >
+                    <img
+                        src="press.jpg"
+                        alt="Press"
+                        class="carousel-slide-bg"
+                    >
                 </a>
 
-                <a href="https://press.metavoxa.com" class="carousel-slide" aria-label="Enter Press">
-                    <img src="press.jpg" alt="Press" class="carousel-slide-bg">
+
+                <!-- RESEARCH -->
+
+                <a
+                    href="https://research.metavoxa.com"
+                    class="carousel-slide"
+                    aria-label="Enter Research"
+                >
+                    <img
+                        src="research.jpg"
+                        alt="Research"
+                        class="carousel-slide-bg"
+                    >
                 </a>
 
-                <a href="https://research.metavoxa.com" class="carousel-slide" aria-label="Enter Research">
-                    <img src="research.jpg" alt="Research" class="carousel-slide-bg">
+
+                <!-- FOUNDER -->
+
+                <a
+                    href="https://www.marthakoroma.com"
+                    class="carousel-slide"
+                    aria-label="Meet the Founder"
+                >
+                    <img
+                        src="founder.jpg"
+                        alt="Founder"
+                        class="carousel-slide-bg"
+                    >
                 </a>
 
-                <a href="https://www.marthakoroma.com" class="carousel-slide" aria-label="Meet the Founder">
-                    <img src="founder.jpg" alt="Founder" class="carousel-slide-bg">
-                </a>
             </div>
 
-            <div class="carousel-hint">Swipe to rotate</div>
-            <div class="carousel-indicators" id="carouselIndicators"></div>
+
+            <div class="carousel-hint">
+                Swipe to rotate
+            </div>
+
+
+            <div
+                class="carousel-indicators"
+                id="carouselIndicators"
+            ></div>
+
         </section>
+
     </main>
 
+
     <script>
-        // ===== INTRO: simple title card, then landing fades in =====
-        const introOverlay = document.getElementById('introOverlay');
-        const mainLanding = document.getElementById('mainLanding');
+        /* =====================================================
+           INTRO
+           ===================================================== */
+
+        const introOverlay =
+            document.getElementById('introOverlay');
+
+        const mainLanding =
+            document.getElementById('mainLanding');
+
 
         function endIntro() {
+
             introOverlay.classList.add('leaving');
 
             setTimeout(() => {
+
                 introOverlay.classList.add('hidden');
+
                 mainLanding.classList.add('visible');
+
             }, 760);
         }
 
+
         window.addEventListener('load', () => {
-            setTimeout(endIntro, 5500);
+
+            setTimeout(
+                endIntro,
+                5500
+            );
+
         });
 
-        // ===== MOBILE 3D CAROUSEL =====
-        const carouselSection = document.getElementById('carouselSection');
-        const slides = Array.from(document.querySelectorAll('.carousel-slide'));
-        const indicatorsContainer = document.getElementById('carouselIndicators');
-        const totalSlides = slides.length;
+
+        /* =====================================================
+           MOBILE 3D CAROUSEL
+           ===================================================== */
+
+        const carouselSection =
+            document.getElementById('carouselSection');
+
+        const slides =
+            Array.from(
+                document.querySelectorAll(
+                    '.carousel-slide'
+                )
+            );
+
+        const indicatorsContainer =
+            document.getElementById(
+                'carouselIndicators'
+            );
+
+        const totalSlides =
+            slides.length;
+
 
         let currentIndex = 0;
+
         let startX = 0;
+
         let startY = 0;
+
         let isDragging = false;
+
         let didMove = false;
+
         let autoRotateInterval = null;
 
-        slides.forEach((_, i) => {
-            const dot = document.createElement('button');
-            dot.className = 'carousel-dot' + (i === 0 ? ' active' : '');
-            dot.setAttribute('aria-label', `Go to slide ${i + 1}`);
 
-            dot.addEventListener('click', () => {
-                stopAutoRotate();
-                goToSlide(i);
-                startAutoRotate();
-            });
+        /* =====================================================
+           CREATE INDICATORS
+           ===================================================== */
+
+        slides.forEach((_, i) => {
+
+            const dot =
+                document.createElement('button');
+
+            dot.className =
+                'carousel-dot' +
+                (i === 0 ? ' active' : '');
+
+            dot.setAttribute(
+                'aria-label',
+                `Go to slide ${i + 1}`
+            );
+
+
+            dot.addEventListener(
+                'click',
+                () => {
+
+                    stopAutoRotate();
+
+                    goToSlide(i);
+
+                    startAutoRotate();
+
+                }
+            );
+
 
             indicatorsContainer.appendChild(dot);
+
         });
 
-        const dots = Array.from(document.querySelectorAll('.carousel-dot'));
 
-        function wrapOffset(index, activeIndex) {
-            let offset = index - activeIndex;
-            const half = Math.floor(totalSlides / 2);
+        const dots =
+            Array.from(
+                document.querySelectorAll(
+                    '.carousel-dot'
+                )
+            );
 
-            if (offset > half) offset -= totalSlides;
-            if (offset < -half) offset += totalSlides;
+
+        /* =====================================================
+           CAROUSEL POSITIONING
+           ===================================================== */
+
+        function wrapOffset(
+            index,
+            activeIndex
+        ) {
+
+            let offset =
+                index -
+                activeIndex;
+
+            const half =
+                Math.floor(
+                    totalSlides / 2
+                );
+
+
+            if (offset > half) {
+                offset -= totalSlides;
+            }
+
+
+            if (offset < -half) {
+                offset += totalSlides;
+            }
+
 
             return offset;
         }
 
+
         function updateCarousel() {
-            slides.forEach((slide, i) => {
-                const offset = wrapOffset(i, currentIndex);
-                const abs = Math.abs(offset);
 
-                slide.style.pointerEvents = abs === 0 ? 'auto' : 'none';
+            slides.forEach(
+                (slide, i) => {
 
-                if (abs === 0) {
-                    slide.style.opacity = '1';
-                    slide.style.filter = 'brightness(1) saturate(1)';
-                    slide.style.zIndex = '20';
-                    slide.style.transform = 'translateX(0) translateZ(0) rotateY(0deg) scale(1)';
-                } else if (abs === 1) {
-                    const direction = offset > 0 ? 1 : -1;
+                    const offset =
+                        wrapOffset(
+                            i,
+                            currentIndex
+                        );
 
-                    slide.style.opacity = '0.48';
-                    slide.style.filter = 'brightness(0.58) saturate(0.72)';
-                    slide.style.zIndex = '10';
-                    slide.style.transform = `translateX(${direction * 58}vw) translateZ(-170px) rotateY(${direction * -28}deg) scale(0.86)`;
-                } else {
-                    const direction = offset > 0 ? 1 : -1;
+                    const abs =
+                        Math.abs(offset);
 
-                    slide.style.opacity = '0';
-                    slide.style.filter = 'brightness(0.4) saturate(0.5)';
-                    slide.style.zIndex = '1';
-                    slide.style.transform = `translateX(${direction * 92}vw) translateZ(-320px) rotateY(${direction * -40}deg) scale(0.72)`;
+
+                    slide.style.pointerEvents =
+                        abs === 0
+                            ? 'auto'
+                            : 'none';
+
+
+                    /* ACTIVE SLIDE */
+
+                    if (abs === 0) {
+
+                        slide.style.opacity =
+                            '1';
+
+                        slide.style.filter =
+                            'brightness(1) saturate(1)';
+
+                        slide.style.zIndex =
+                            '20';
+
+                        slide.style.transform =
+                            'translateX(0) translateZ(0) rotateY(0deg) scale(1)';
+
+                    }
+
+                    /* ADJACENT SLIDES */
+
+                    else if (abs === 1) {
+
+                        const direction =
+                            offset > 0
+                                ? 1
+                                : -1;
+
+
+                        slide.style.opacity =
+                            '0.48';
+
+                        slide.style.filter =
+                            'brightness(0.58) saturate(0.72)';
+
+                        slide.style.zIndex =
+                            '10';
+
+                        slide.style.transform =
+                            `translateX(${direction * 58}vw) translateZ(-170px) rotateY(${direction * -28}deg) scale(0.86)`;
+
+                    }
+
+                    /* HIDDEN REAR SLIDES */
+
+                    else {
+
+                        const direction =
+                            offset > 0
+                                ? 1
+                                : -1;
+
+
+                        slide.style.opacity =
+                            '0';
+
+                        slide.style.filter =
+                            'brightness(0.4) saturate(0.5)';
+
+                        slide.style.zIndex =
+                            '1';
+
+                        slide.style.transform =
+                            `translateX(${direction * 92}vw) translateZ(-320px) rotateY(${direction * -40}deg) scale(0.72)`;
+
+                    }
                 }
-            });
+            );
 
-            dots.forEach((dot, i) => {
-                dot.classList.toggle('active', i === currentIndex);
-            });
+
+            dots.forEach(
+                (dot, i) => {
+
+                    dot.classList.toggle(
+                        'active',
+                        i === currentIndex
+                    );
+
+                }
+            );
         }
 
+
+        /* =====================================================
+           SLIDE NAVIGATION
+           ===================================================== */
+
         function goToSlide(index) {
-            currentIndex = (index + totalSlides) % totalSlides;
+
+            currentIndex =
+                (
+                    index +
+                    totalSlides
+                ) %
+                totalSlides;
+
             updateCarousel();
         }
 
+
         function nextSlide() {
-            goToSlide(currentIndex + 1);
+
+            goToSlide(
+                currentIndex + 1
+            );
         }
+
 
         function prevSlide() {
-            goToSlide(currentIndex - 1);
+
+            goToSlide(
+                currentIndex - 1
+            );
         }
+
+
+        /* =====================================================
+           AUTO ROTATION
+           ===================================================== */
 
         function startAutoRotate() {
-            if (window.innerWidth > 768) return;
+
+            if (
+                window.innerWidth >
+                768
+            ) {
+                return;
+            }
+
 
             stopAutoRotate();
-            autoRotateInterval = setInterval(nextSlide, 4200);
+
+
+            autoRotateInterval =
+                setInterval(
+                    nextSlide,
+                    4200
+                );
         }
+
 
         function stopAutoRotate() {
-            if (autoRotateInterval) clearInterval(autoRotateInterval);
-            autoRotateInterval = null;
+
+            if (autoRotateInterval) {
+
+                clearInterval(
+                    autoRotateInterval
+                );
+            }
+
+
+            autoRotateInterval =
+                null;
         }
 
-        function pointerStart(x, y) {
+
+        /* =====================================================
+           DRAG / SWIPE
+           ===================================================== */
+
+        function pointerStart(
+            x,
+            y
+        ) {
+
             isDragging = true;
+
             didMove = false;
+
             startX = x;
+
             startY = y;
+
             stopAutoRotate();
         }
 
-        function pointerMove(x, y) {
-            if (!isDragging) return;
 
-            const dx = x - startX;
-            const dy = y - startY;
+        function pointerMove(
+            x,
+            y
+        ) {
 
-            if (Math.abs(dx) > 12 && Math.abs(dx) > Math.abs(dy)) {
+            if (!isDragging) {
+                return;
+            }
+
+
+            const dx =
+                x -
+                startX;
+
+            const dy =
+                y -
+                startY;
+
+
+            if (
+                Math.abs(dx) > 12 &&
+                Math.abs(dx) >
+                Math.abs(dy)
+            ) {
+
                 didMove = true;
             }
         }
 
+
         function pointerEnd(x) {
-            if (!isDragging) return;
 
-            const dx = x - startX;
-
-            if (didMove) {
-                if (dx < -38) nextSlide();
-                if (dx > 38) prevSlide();
+            if (!isDragging) {
+                return;
             }
 
+
+            const dx =
+                x -
+                startX;
+
+
+            if (didMove) {
+
+                if (dx < -38) {
+                    nextSlide();
+                }
+
+                if (dx > 38) {
+                    prevSlide();
+                }
+            }
+
+
             isDragging = false;
+
             startAutoRotate();
         }
 
-        carouselSection.addEventListener('touchstart', (e) => {
-            pointerStart(e.touches[0].clientX, e.touches[0].clientY);
-        }, { passive: true });
 
-        carouselSection.addEventListener('touchmove', (e) => {
-            pointerMove(e.touches[0].clientX, e.touches[0].clientY);
-        }, { passive: true });
+        /* =====================================================
+           TOUCH EVENTS
+           ===================================================== */
 
-        carouselSection.addEventListener('touchend', (e) => {
-            const x = e.changedTouches[0] ? e.changedTouches[0].clientX : startX;
-            pointerEnd(x);
-        }, { passive: true });
+        carouselSection.addEventListener(
+            'touchstart',
+            (e) => {
 
-        carouselSection.addEventListener('mousedown', (e) => {
-            pointerStart(e.clientX, e.clientY);
-        });
+                pointerStart(
+                    e.touches[0].clientX,
+                    e.touches[0].clientY
+                );
 
-        carouselSection.addEventListener('mousemove', (e) => {
-            pointerMove(e.clientX, e.clientY);
-        });
-
-        carouselSection.addEventListener('mouseup', (e) => {
-            pointerEnd(e.clientX);
-        });
-
-        carouselSection.addEventListener('mouseleave', () => {
-            if (isDragging) {
-                isDragging = false;
-                startAutoRotate();
+            },
+            {
+                passive: true
             }
-        });
+        );
 
-        slides.forEach(slide => {
-            slide.addEventListener('click', (e) => {
-                if (didMove) {
-                    e.preventDefault();
-                    e.stopPropagation();
+
+        carouselSection.addEventListener(
+            'touchmove',
+            (e) => {
+
+                pointerMove(
+                    e.touches[0].clientX,
+                    e.touches[0].clientY
+                );
+
+            },
+            {
+                passive: true
+            }
+        );
+
+
+        carouselSection.addEventListener(
+            'touchend',
+            (e) => {
+
+                const x =
+                    e.changedTouches[0]
+                        ? e.changedTouches[0].clientX
+                        : startX;
+
+
+                pointerEnd(x);
+
+            },
+            {
+                passive: true
+            }
+        );
+
+
+        /* =====================================================
+           MOUSE EVENTS
+           ===================================================== */
+
+        carouselSection.addEventListener(
+            'mousedown',
+            (e) => {
+
+                pointerStart(
+                    e.clientX,
+                    e.clientY
+                );
+
+            }
+        );
+
+
+        carouselSection.addEventListener(
+            'mousemove',
+            (e) => {
+
+                pointerMove(
+                    e.clientX,
+                    e.clientY
+                );
+
+            }
+        );
+
+
+        carouselSection.addEventListener(
+            'mouseup',
+            (e) => {
+
+                pointerEnd(
+                    e.clientX
+                );
+
+            }
+        );
+
+
+        carouselSection.addEventListener(
+            'mouseleave',
+            () => {
+
+                if (isDragging) {
+
+                    isDragging = false;
+
+                    startAutoRotate();
                 }
-            });
-        });
 
-        window.addEventListener('resize', () => {
-            updateCarousel();
-
-            if (window.innerWidth <= 768) {
-                startAutoRotate();
-            } else {
-                stopAutoRotate();
             }
-        });
+        );
+
+
+        /*
+         * Prevent accidental navigation when
+         * the user intended to swipe.
+         */
+
+        slides.forEach(
+            slide => {
+
+                slide.addEventListener(
+                    'click',
+                    (e) => {
+
+                        if (didMove) {
+
+                            e.preventDefault();
+
+                            e.stopPropagation();
+                        }
+
+                    }
+                );
+
+            }
+        );
+
+
+        /* =====================================================
+           RESPONSIVE STATE
+           ===================================================== */
+
+        window.addEventListener(
+            'resize',
+            () => {
+
+                updateCarousel();
+
+
+                if (
+                    window.innerWidth <=
+                    768
+                ) {
+
+                    startAutoRotate();
+
+                } else {
+
+                    stopAutoRotate();
+
+                }
+
+            }
+        );
+
+
+        /* =====================================================
+           INITIALIZE
+           ===================================================== */
 
         updateCarousel();
+
         startAutoRotate();
+
     </script>
 
 </body>
